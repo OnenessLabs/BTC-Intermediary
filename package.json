@@ -1,0 +1,38 @@
+{
+  "name": "evmbridge-ts",
+  "version": "1.0.0",
+  "description": "EVMBridge intermediary implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/index.js",
+    "genKey": "node dist/utils/genKey.js",
+    "airdrop": "node dist/utils/airdrop.js",
+    "createToken": "node dist/utils/createToken.js",
+    "mint": "node dist/utils/mint.js",
+    "deposit": "node dist/utils/deposit.js",
+    "getReputation": "node dist/utils/getReputation.js"
+  },
+  "author": "adambor",
+  "license": "ISC",
+  "dependencies": {
+    "bitcoind-rpc": "^0.9.1",
+    "bitcoinjs-lib": "^6.1.0",
+    "bn.js": "^5.2.1",
+    "btcrelay-bitcoind": "^1.0.1",
+    "cors": "^2.8.5",
+    "crosslightning-base": "^1.0.1",
+    "crosslightning-evm": "^1.0.0",
+    "crosslightning-intermediary": "^1.0.1",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
+    "express": "^4.18.2",
+    "lightning": "^6.4.1",
+    "ln-service": "^54.4.1",
+    "typescript": "^4.9.5"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.5"
+  }
+}
