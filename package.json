@@ -23,7 +23,7 @@
     "cors": "^2.8.5",
     "crosslightning-base": "^1.0.1",
     "crosslightning-evm": "^1.0.0",
-    "crosslightning-intermediary": "^1.0.1",
+    "crosslightning-intermediary": "^1.0.4",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
