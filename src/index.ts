@@ -40,6 +40,8 @@ bitcoin_chainparams.bip32 = {
     private: 0x045f18bc,
 };
 
+const SECURITY_DEPOSIT_APY = 0.2; //20% p.a.
+
 async function main() {
 
     const directory = "./storage";
@@ -79,7 +81,7 @@ async function main() {
     const coinMap = CoinGeckoSwapPrice.generateCoinMap(allowedTokens[0], allowedTokens[1], allowedTokens[2]);
     coinMap[ETH_ADDRESS] = {
         decimals: 18,
-        coinId: "matic-network"
+        coinId: "$fixed-1218"
     };
 
     const prices = new CoinGeckoSwapPrice(null, coinMap);
@@ -132,7 +134,8 @@ async function main() {
             confirmations: 2,
             swapCsvDelta: 72,
 
-            refundInterval: 5*60*1000
+            refundInterval: 5*60*1000,
+            securityDepositAPY: SECURITY_DEPOSIT_APY
         })
     );
 
@@ -167,7 +170,8 @@ async function main() {
 
             minCltv: new BN(20),
 
-            refundInterval: 5*60*1000
+            refundInterval: 5*60*1000,
+            securityDepositAPY: SECURITY_DEPOSIT_APY
         })
     );
 
