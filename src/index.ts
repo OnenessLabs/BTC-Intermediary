@@ -54,7 +54,7 @@ async function main() {
     await nonce.init();
 
     console.log("[Main]: Running in bitcoin "+process.env.BTC_NETWORK+" mode!");
-    console.log("[Main]: Using chain with ID: "+process.env.EVM_CHAIN_ID+"!");
+    console.log("[Main]: Using chain with ID: "+process.env.SOL_RPC_URL+"!");
 
     console.log("[Main]: Nonce initialized!");
 
@@ -153,7 +153,9 @@ async function main() {
 
             minSendCltv: new BN(10),
 
-            swapCheckInterval: 5*60*1000
+            swapCheckInterval: 5*60*1000,
+
+            routingFeeMultiplier: new BN(2)
         })
     );
     swapHandlers.push(

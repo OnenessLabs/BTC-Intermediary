@@ -45,7 +45,7 @@ async function main() {
     console.log("USDT:");
     await printReputation(swapContract, USDT_ADDRESS);
 
-    console.log("MATIC:");
+    console.log("ETH:");
     await printReputation(swapContract, ETH_ADDRESS);
 
 }
