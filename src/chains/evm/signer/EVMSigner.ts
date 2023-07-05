@@ -1,4 +1,5 @@
 import {EVMWallet} from "crosslightning-evm/dist/evm/signer/EVMSigner"
+import {BigNumber} from "ethers";
 
 const privKey = process.env.EVM_PRIVKEY;
 const address = process.env.EVM_ADDRESS;

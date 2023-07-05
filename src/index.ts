@@ -30,7 +30,7 @@ import {AUTHORIZATION_TIMEOUT} from "./constants/Constants";
 import LND from "./btc/LND";
 import {CoinGeckoSwapPrice, FromBtcAbs, FromBtcLnAbs,
     InfoHandler,
-    SwapHandler, SwapNonce, ToBtcAbs, ToBtcLnAbs, StorageManager, FromBtcSwapAbs, ToBtcSwapAbs} from "crosslightning-intermediary";
+    SwapHandler, SwapNonce, ToBtcAbs, ToBtcLnAbs, StorageManager, FromBtcSwapAbs, ToBtcSwapAbs, PluginManager} from "crosslightning-intermediary";
 import {BitcoindRpc} from "btcrelay-bitcoind";
 import {EVMChainEvents} from "crosslightning-evm/dist/evm/events/EVMChainEvents";
 
@@ -71,6 +71,11 @@ async function main() {
     const swapContract = new EVMSwapProgram(EVMSigner, btcRelay, process.env.EVM_SWAP_CONTRACT_ADDRESS);
     const chainEvents = new EVMChainEvents(directory, EVMSigner.provider, swapContract);
 
+    await swapContract.start();
+    console.log("[Main]: Swap contract initialized!");
+
+    await PluginManager.enable(swapContract, btcRelay, chainEvents, LND);
+
     const allowedTokens = [
         USDC_ADDRESS,
         USDT_ADDRESS,
@@ -81,13 +86,11 @@ async function main() {
     const coinMap = CoinGeckoSwapPrice.generateCoinMap(allowedTokens[0], allowedTokens[1], allowedTokens[2]);
     coinMap[ETH_ADDRESS] = {
         decimals: 18,
-        coinId: "$fixed-1218"
+        coinId: process.env.ETH_COINGECKO_ID
     };
 
     const prices = new CoinGeckoSwapPrice(null, coinMap);
 
-    await swapContract.start();
-    console.log("[Main]: Swap contract initialized!");
 
     const swapHandlers: SwapHandler<any, EVMSwapData>[] = [];
 
