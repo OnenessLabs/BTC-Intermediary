@@ -33,6 +33,7 @@ import {CoinGeckoSwapPrice, FromBtcAbs, FromBtcLnAbs,
     SwapHandler, SwapNonce, ToBtcAbs, ToBtcLnAbs, StorageManager, FromBtcSwapAbs, ToBtcSwapAbs, PluginManager} from "crosslightning-intermediary";
 import {BitcoindRpc} from "btcrelay-bitcoind";
 import {EVMChainEvents} from "crosslightning-evm/dist/evm/events/EVMChainEvents";
+import {HedgingPlugin} from "hedging-plugin";
 
 const bitcoin_chainparams = { ...testnet };
 bitcoin_chainparams.bip32 = {
@@ -50,32 +51,6 @@ async function main() {
         await fs.mkdir(directory)
     } catch (e) {}
 
-    const nonce = new SwapNonce(directory);
-    await nonce.init();
-
-    console.log("[Main]: Running in bitcoin "+process.env.BTC_NETWORK+" mode!");
-    console.log("[Main]: Using chain with ID: "+process.env.EVM_CHAIN_ID+"!");
-
-    console.log("[Main]: Nonce initialized!");
-
-    await EVMSigner.init();
-
-    const bitcoinRpc = new BitcoindRpc(
-        BtcRPCConfig.protocol,
-        BtcRPCConfig.user,
-        BtcRPCConfig.pass,
-        BtcRPCConfig.host,
-        BtcRPCConfig.port
-    );
-    const btcRelay = new EVMBtcRelay(EVMSigner, bitcoinRpc, process.env.EVM_BTC_RELAY_CONTRACT_ADDRESS);
-    const swapContract = new EVMSwapProgram(EVMSigner, btcRelay, process.env.EVM_SWAP_CONTRACT_ADDRESS);
-    const chainEvents = new EVMChainEvents(directory, EVMSigner.provider, swapContract);
-
-    await swapContract.start();
-    console.log("[Main]: Swap contract initialized!");
-
-    await PluginManager.enable(swapContract, btcRelay, chainEvents, LND);
-
     const allowedTokens = [
         USDC_ADDRESS,
         USDT_ADDRESS,
@@ -90,6 +65,39 @@ async function main() {
     };
 
     const prices = new CoinGeckoSwapPrice(null, coinMap);
+
+    const bitcoinRpc = new BitcoindRpc(
+        BtcRPCConfig.protocol,
+        BtcRPCConfig.user,
+        BtcRPCConfig.pass,
+        BtcRPCConfig.host,
+        BtcRPCConfig.port
+    );
+
+    PluginManager.registerPlugin(new HedgingPlugin<EVMSwapData>(process.env.API_KEY, process.env.API_SECRET, process.env.API_PASSWORD,{
+        USDC: USDC_ADDRESS,
+        USDT: USDT_ADDRESS,
+        WBTC: WBTC_ADDRESS
+    }, prices, "OKTC", bitcoinRpc));
+
+    const nonce = new SwapNonce(directory);
+    await nonce.init();
+
+    console.log("[Main]: Running in bitcoin "+process.env.BTC_NETWORK+" mode!");
+    console.log("[Main]: Using chain with ID: "+process.env.EVM_CHAIN_ID+"!");
+
+    console.log("[Main]: Nonce initialized!");
+
+    await EVMSigner.init();
+
+    const btcRelay = new EVMBtcRelay(EVMSigner, bitcoinRpc, process.env.EVM_BTC_RELAY_CONTRACT_ADDRESS);
+    const swapContract = new EVMSwapProgram(EVMSigner, btcRelay, process.env.EVM_SWAP_CONTRACT_ADDRESS);
+    const chainEvents = new EVMChainEvents(directory, EVMSigner.provider, swapContract);
+
+    await swapContract.start();
+    console.log("[Main]: Swap contract initialized!");
+
+    await PluginManager.enable(swapContract, btcRelay, chainEvents, LND);
 
 
     const swapHandlers: SwapHandler<any, EVMSwapData>[] = [];
