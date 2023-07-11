@@ -59,6 +59,9 @@ async function main() {
     ];
 
     const coinMap = CoinGeckoSwapPrice.generateCoinMap(allowedTokens[0], allowedTokens[1], allowedTokens[2]);
+    //TODO: Remove this for other chains, OKTC has USDT/C with 18 decimals
+    coinMap[allowedTokens[0]].decimals = 18;
+    coinMap[allowedTokens[1]].decimals = 18;
     coinMap[ETH_ADDRESS] = {
         decimals: 18,
         coinId: process.env.ETH_COINGECKO_ID
@@ -78,7 +81,7 @@ async function main() {
         USDC: USDC_ADDRESS,
         USDT: USDT_ADDRESS,
         WBTC: WBTC_ADDRESS
-    }, prices, "OKTC", bitcoinRpc));
+    }, prices, "OKTC", bitcoinRpc, new BN(500000), new BN(500000)));
 
     const nonce = new SwapNonce(directory);
     await nonce.init();
@@ -90,9 +93,9 @@ async function main() {
 
     await EVMSigner.init();
 
-    const btcRelay = new EVMBtcRelay(EVMSigner, bitcoinRpc, process.env.EVM_BTC_RELAY_CONTRACT_ADDRESS);
+    const btcRelay = new EVMBtcRelay(EVMSigner, bitcoinRpc, process.env.EVM_BTC_RELAY_CONTRACT_ADDRESS, 2000);
     const swapContract = new EVMSwapProgram(EVMSigner, btcRelay, process.env.EVM_SWAP_CONTRACT_ADDRESS);
-    const chainEvents = new EVMChainEvents(directory, EVMSigner.provider, swapContract);
+    const chainEvents = new EVMChainEvents(directory, EVMSigner.provider, swapContract, 2000);
 
     await swapContract.start();
     console.log("[Main]: Swap contract initialized!");
