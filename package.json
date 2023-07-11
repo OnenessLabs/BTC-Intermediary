@@ -30,7 +30,7 @@
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "express": "^4.18.2",
-    "hedging-plugin": "file:../../crosslightning-libs/hedging-plugin",
+    "hedging-plugin": "file:../../Plugins/hedging-plugin",
     "lightning": "^6.4.1",
     "ln-service": "^54.4.1",
     "typescript": "^4.9.5"
