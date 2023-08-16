@@ -2,7 +2,7 @@
 
 An off-chain app handling BTC <-> EVM cross-chain swaps, utilizing [EVMLightning-swaps](https://github.com/adambor/crosslightning-libs/blob/main/crosslightning-evm/solidity/SwapContract.sol) EVM on-chain smart contract.
 
-Principle of operation is described in depth [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md) (for lightning network swaps) and [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-onchain-swaps.md) (for bitcoin on-chain swaps)
+Principle of operation is described in depth [here](https://github.com/adambor/crosslightning-readme/blob/main/swaps/submarine.md) (for lightning network swaps) and [here](https://github.com/adambor/crosslightning-readme/blob/main/swaps/onchain.md) (for bitcoin on-chain swaps)
 
 This software is made to be used in conjunction with [client SDK](https://github.com/adambor/EVMLightning-sdk).
 
@@ -15,7 +15,7 @@ This app starts an http rest api server on port 4000. This is configurable by RE
 REST_PORT="4001"
 ```
 
-**NOTE:** Be sure to open this ports so client SDK can call the REST API.
+**NOTE:** Be sure to open this port in your firewall so client SDK can call the REST API.
 
 ## Requirements
 * bitcoind node
@@ -26,7 +26,7 @@ REST_PORT="4001"
 
 ## Installation
 
-1. Rename \_Q.env (if using Q) or \_POLYGON.env (if using polygon) file to .env
+1. Rename the chain specific configration (\_Q.env, \_POLYGON.env or \_LINEA\_TESTNET.env) file to .env
 
 ### Installing bitcoind
 1. Download latest version from [here](https://bitcoincore.org/en/download/) or [build from source](https://baloian.medium.com/how-to-setup-and-run-a-bitcoin-full-node-on-ubuntu-a106fb86dbb3)
@@ -69,11 +69,11 @@ Instructions available [here](https://github.com/adambor/BTCRelay-EVM-TS). Skip 
 2. Install typescript: ```npm install -g typescript```
 3. Compile to javascript: ```tsc```
 5. Generate a new EVM keypair: ```npm run genKey```
-6. Deposit some native EVM tokens (Q or MATIC) to the displayed address.
-7. (mainnet only) Deposit some WBTC, USDC and/or USDT to the displayed wallet address.
-8. (testnet only) Create the WBTC, USDC and USDT tokens on devnet: ```npm run createToken```
-9. (testnet only) Mint some WBTC/USDC/USDT token to your new keypair: ```npm run mint <WBTC/USDC/USDT> <amount to mint in satoshis>```
-10. (testnet only) You can also mint some WBTC/USDC/USDT tokens to your metamask wallet: ```npm run mint <WBTC/USDC/USDT> <amount to mint in base units> <wallet address>```
-11. Deposit your WBTC/USDC/USDT to the smart contract ```npm run deposit <WBTC/USDC/USDT> <amount to deposit in base units>```
+6. Deposit some native EVM tokens to the displayed address.
+7. (mainnet only) Deposit some ETH, WBTC, USDC and/or USDT to the displayed wallet address.
+8. (testnet only) Create the ETH, WBTC, USDC and USDT tokens on devnet: ```npm run createToken```
+9. (testnet only) Mint some ETH/WBTC/USDC/USDT token to your new keypair: ```npm run mint <ETH/WBTC/USDC/USDT> <amount to mint in base units>```
+10. (testnet only) You can also mint some ETH/WBTC/USDC/USDT tokens to your metamask wallet: ```npm run mint <ETH/WBTC/USDC/USDT> <amount to mint in base units> <wallet address>```
+11. Deposit your ETH/WBTC/USDC/USDT to the smart contract ```npm run deposit <ETH/WBTC/USDC/USDT> <amount to deposit in base units>```
 12. Be sure that bitcoind, lnd and btcrelay are running before starting the app.
 13. Run the app with: ```npm start```
