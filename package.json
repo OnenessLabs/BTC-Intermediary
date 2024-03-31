@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/index.js",
     "genKey": "node dist/utils/genKey.js",
+    "toBtc": "node dist/utils/toBtcTest.js",
     "airdrop": "node dist/utils/airdrop.js",
     "createToken": "node dist/utils/createToken.js",
     "mint": "node dist/utils/mint.js",
