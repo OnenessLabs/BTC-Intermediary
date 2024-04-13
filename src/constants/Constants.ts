@@ -34,5 +34,6 @@ export const LN_MAX = new BN(1000000);
 export const CHAIN_BASE_FEE = new BN(50);
 export const CHAIN_FEE_PPM = new BN(3000);
 
-export const CHAIN_MIN = new BN(10000);
+// export const CHAIN_MIN = new BN(10000);
+export const CHAIN_MIN = new BN(1000);
 export const CHAIN_MAX = new BN(1000000);

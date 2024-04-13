@@ -33,7 +33,7 @@ import {CoinGeckoSwapPrice, FromBtcAbs, FromBtcLnAbs,
     SwapHandler, SwapNonce, ToBtcAbs, ToBtcLnAbs, StorageManager, FromBtcSwapAbs, ToBtcSwapAbs, PluginManager} from "crosslightning-intermediary";
 import {BitcoindRpc} from "btcrelay-bitcoind";
 import {EVMChainEvents} from "crosslightning-evm/dist/evm/events/EVMChainEvents";
-import {HedgingPlugin} from "hedging-plugin";
+// import {HedgingPlugin} from "hedging-plugin";
 
 const bitcoin_chainparams = { ...testnet };
 bitcoin_chainparams.bip32 = {
@@ -77,11 +77,11 @@ async function main() {
         BtcRPCConfig.port
     );
 
-    PluginManager.registerPlugin(new HedgingPlugin<EVMSwapData>(process.env.API_KEY, process.env.API_SECRET, process.env.API_PASSWORD,{
-        USDC: USDC_ADDRESS,
-        USDT: USDT_ADDRESS,
-        WBTC: WBTC_ADDRESS
-    }, prices, "OKTC", bitcoinRpc, new BN(500000), new BN(500000)));
+    // PluginManager.registerPlugin(new HedgingPlugin<EVMSwapData>(process.env.API_KEY, process.env.API_SECRET, process.env.API_PASSWORD,{
+    //     USDC: USDC_ADDRESS,
+    //     USDT: USDT_ADDRESS,
+    //     WBTC: WBTC_ADDRESS
+    // }, prices, "OKTC", bitcoinRpc, new BN(500000), new BN(500000)));
 
     const nonce = new SwapNonce(directory);
     await nonce.init();
